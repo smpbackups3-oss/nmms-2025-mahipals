@@ -9,6 +9,20 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             color: #333;
+            transition: background 0.3s ease;
+        }
+
+        /* Feather Launcher Effect Background (Blurred) */
+        .feather-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/feather.png'); /* Add a feather pattern image */
+            filter: blur(10px);
+            background-size: cover;
+            z-index: -1;
         }
 
         .container {
@@ -17,6 +31,9 @@
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .question {
@@ -49,12 +66,6 @@
             margin-top: 20px;
         }
 
-        #timer {
-            font-size: 1.5rem;
-            color: #ff5722;
-            text-align: center;
-        }
-
         .nav-buttons {
             margin-top: 20px;
             text-align: center;
@@ -69,14 +80,23 @@
         .nav-buttons button:hover {
             background-color: #0056b3;
         }
+
+        /* Right Arrow styling */
+        .right-arrow {
+            color: green;
+            font-size: 1.5rem;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Timer Section -->
-        <div id="timer"></div>
+    <!-- Feather Background -->
+    <div class="feather-background"></div>
 
+    <div class="container">
         <div id="question-container">
             <div class="question">
                 <p id="question-text">પ્રશ્ન અહીં દર્શાવા માટે આવે છે.</p>
@@ -111,24 +131,77 @@
         // Questions in Gujarati (50 questions added)
         var questions = [
             { question: "ભારતનો પ્રથમ રાષ્ટ્રપતિ કોણ હતા?", options: ["જવાહરલાલ નેહરુ", "ગોપાલ કૃષ્ણ ગોકલ", "ડૉ. રાજેન્દ્ર પ્રસાદ", "સર્દાર પટેલ"], correctAnswer: "ડૉ. રાજેન્દ્ર પ્રસાદ" },
-            { question: "ભારતની રાજધાની શું છે?", options: ["મુંબઈ", "ચેન્નાઈ", "દિલ્લી", "કોલકાતા"], correctAnswer: "દિલ્લી" },
+            { question: "ભારતની રાજધાની શું છે?", options: ["મુંબઇ", "ચેન્નાઈ", "દિલ્લી", "કોલકાતા"], correctAnswer: "દિલ્લી" },
             { question: "ભારતના સ્વતંત્રતા સંઘર્ષમાં ગાંધીજીની મહત્વપૂર્ણ ભૂમિકા કઈ હતી?", options: ["સમતાવાદ", "વિશ્વ શાંતિ", "ખેડૂત આંદોલન", "સ્વદેશનિષેડh"], correctAnswer: "સ્વદેશનિષેડh" },
-            { question: "ભારતમાં કયો મહાત્મા गांधीજીના અનુયાયી હતા?", options: ["સર્દાર પટેલ", "બાબા આંબેડકર", "જવાહરલાલ નેહરુ", "સુબાસ ચંદ્ર બોઝ"], correctAnswer: "સર્દાર પટેલ" },
-            { question: "ભારતની રાષ્ટ્રીય પક્ષી કયું છે?", options: ["શાહમૂછ", "મોર", "કોકાટ", "હંસ"], correctAnswer: "મોર" },
-            { question: "ભારતના મુખ્ય નદીઓમાં કયો નદી નથી?", options: ["ગંગા", "બ્રહ્મપુત્ર", "તુઁગભદ્ર", "આરવિલા"], correctAnswer: "આરવિલા" },
-            { question: "ભારતના સંસદનું સ્થાન ક્યાં છે?", options: ["દિલ્લી", "અમદાવાદ", "ચંદીગઢ", "મુંબઈ"], correctAnswer: "દિલ્લી" },
-            { question: "ભારતના સ્વતંત્રતા પામી કયા વર્ષમાં?", options: ["1942", "1950", "1947", "1960"], correctAnswer: "1947" },
-            { question: "મહાત્મા ગાંધીજીની જન્મ તારીખ કઈ છે?", options: ["2 ઓક્ટોબર 1869", "15 ઑગસ્ટ 1900", "12 ડિસેમ્બર 1880", "5 ફેબ્રુઆરી 1905"], correctAnswer: "2 ઓક્ટોબર 1869" },
-            { question: "ભારતમાં પવનમુલ્ય એન્જિન કયા રાજ્યમાં વધુ પ્રમાણમાં છે?", options: ["ગુજરાત", "કર્ણાટક", "મહારાષ્ટ્ર", "મધ્યપ્રદેશ"], correctAnswer: "ગુજરાત" },
-            { question: "ભારતના સૌથી મોટા રાજ્ય કયા છે?", options: ["ગુજરાત", "કેમ્પલ", "રાજસ્થાન", "મધ્યપ્રદેશ"], correctAnswer: "રાજસ્થાન" },
-            { question: "ઇંગ્લેન્ડના રાજાના નામ કયું છે?", options: ["કિંગ ચાર્લ્સ", "કિંગ વિલિયમ", "કિંગ એલિઝાબેથ", "કિંગ સેલ્વિન"], correctAnswer: "કિંગ ચાર્લ્સ" },
-            { question: "ભારતના સૌથી વધુ વસ્તી ધરાવતું રાજ્ય કયું છે?", options: ["મહારાષ્ટ્ર", "ઉત્તર પ્રદેશ", "કર્ણાટક", "ગુજરાત"], correctAnswer: "ઉત્તર પ્રદેશ" },
-            { question: "વિશ્વનું સૌથી મોટું મહાસાગર કયું છે?", options: ["એટલાંટિક", "હિન્દ મહાસાગર", "પ્રશાંત મહાસાગર", "આરctic"], correctAnswer: "પ્રશાંત મહાસાગર" },
-            { question: "આગસ્ત 15 કયા દિવસની ઉજવણી છે?", options: ["ભારતીય જનતાની ઉજવણી", "સ્વાતંત્ર્ય દિવસ", "મહાત્મા ગાંધી જયંતી", "નવી વર્ષ"], correctAnswer: "સ્વાતંત્ર્ય દિવસ" },
-            { question: "ભારતની પ્રથમ મહિલા પ્રધાનમંત્રી કોણ હતી?", options: ["સિંહ સોનિયા", "પ્રતિભા પાટિલ", "ઇન્દ્રા ગાંધી", "જશોધાબેન"], correctAnswer: "ઇન્દ્રા ગાંધી" },
-            { question: "ભારતનું રાષ્ટ્રીય પંખી કયું છે?", options: ["હુલી હકી", "કાળો મોર", "સૂકાનું", "મોર"], correctAnswer: "મોર" },
-            { question: "ભારતનો પોટેશીયલ પીઠ રકમ કયા છે?", options: ["અમદાવાદ", "વિશ્વરૂપ ચંદ્ર", "વિલિયમ વિશ્વ", "અલ્બર્ટ ટુંટ"], correctAnswer: "વિશ્વરૂપ ચંદ્ર" },
-            { question: "ભારતને 'મિત્ર દેશ' કેટલા છે?", options: ["2", "3", "4", "5"], correctAnswer: "3" },
-            { question: "ભારતના રાષ્ટ્રીય મહત્વપૂર્ણ સંગ્રહ કેટલા છે?", options: ["3", "4", "5", "10"], correctAnswer: "4" },
-            { question: "ભારતના સૌથી જૂનાં અવશેષ કેટલા છે?", options: ["હડાપ્પા", "ઉજ્જૈન", "અવંતી", "ગુજરાત"], correctAnswer
+            { question: "ભારતમાં કયો મહાત્મા ગાંધીજીના અનુયાયી હતા?", options: ["સર્દાર પટેલ", "બાબા આંબેડકર", "જવાહરલાલ નેહરુ", "સુબાસ ચંદ્ર બોઝ"], correctAnswer: "સર્દાર પટેલ" },
+            // Add more questions here...
+        ];
 
+        var currentQuestionIndex = 0;
+        var score = 0;
+        var totalQuestions = questions.length;
+
+        // Load the current question
+        function loadQuestion() {
+            if (currentQuestionIndex < totalQuestions) {
+                var currentQuestion = questions[currentQuestionIndex];
+                document.getElementById("question-text").innerText = currentQuestion.question;
+                document.getElementById("label1").innerText = currentQuestion.options[0];
+                document.getElementById("label2").innerText = currentQuestion.options[1];
+                document.getElementById("label3").innerText = currentQuestion.options[2];
+                document.getElementById("label4").innerText = currentQuestion.options[3];
+                document.getElementById("result").innerHTML = '';  // Clear previous result
+            }
+        }
+
+        function submitAnswer() {
+            var selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (selectedAnswer) {
+                var answerValue = selectedAnswer.value;
+                var currentQuestion = questions[currentQuestionIndex];
+
+                // Play sound effects
+                var correctSound = document.getElementById("correct-sound");
+                var wrongSound = document.getElementById("wrong-sound");
+
+                if (answerValue === currentQuestion.correctAnswer) {
+                    score++;
+                    correctSound.play(); // Play correct answer sound
+                    document.getElementById("result").innerHTML = `સાચું! <span class="right-arrow">&#8594;</span>`;
+                    changeBackground('green'); // Change background color on correct answer
+                } else {
+                    wrongSound.play(); // Play wrong answer sound
+                    document.getElementById("result").innerText = `ખોટું! સાચું જવાબ: ${currentQuestion.correctAnswer}`;
+                    changeBackground('red'); // Change background color on wrong answer
+                }
+
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                alert("કૃપા કરીને જવાબ પસંદ કરો.");
+            }
+        }
+
+        function changeBackground(color) {
+            document.body.style.backgroundColor = color;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < totalQuestions) {
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        // Load the first question when the page loads
+        window.onload = loadQuestion;
+    </script>
+
+</body>
+</html>
