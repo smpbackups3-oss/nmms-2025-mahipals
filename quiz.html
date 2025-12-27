@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NMMS Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            margin-bottom: 30px;
+        }
+
+        .options input {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        #timer {
+            font-size: 1.5rem;
+            color: #ff5722;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Timer Section -->
+        <div id="timer"></div>
+
+        <div id="question-container">
+            <div class="question">
+                <p id="question-text">પ્રશ્ન અહીં દર્શાવા માટે આવે છે.</p>
+            </div>
+
+            <div class="options">
+                <input type="radio" id="option1" name="answer" value="A">
+                <label for="option1" id="label1">વિકલ્પ 1</label><br>
+                <input type="radio" id="option2" name="answer" value="B">
+                <label for="option2" id="label2">વિકલ્પ 2</label><br>
+                <input type="radio" id="option3" name="answer" value="C">
+                <label for="option3" id="label3">વિકલ્પ 3</label><br>
+                <input type="radio" id="option4" name="answer" value="D">
+                <label for="option4" id="label4">વિકલ્પ 4</label><br>
+            </div>
+
+            <button onclick="submitAnswer()">આગળના પ્રશ્ન પર જાઓ</button>
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <!-- Audio Files for sound effects -->
+    <audio id="correct-sound" src="correct-answer.mp3"></audio>
+    <audio id="wrong-sound" src="wrong-answer.mp3"></audio>
+
+    <script>
+        // Example of Social Science questions in Gujarati (50 questions for example)
+        var questions = [
+            {
+                question: "ભારતનો પ્રથમ રાષ્ટ્રપતિ કોણ હતા?",
+                options: ["જવાહરલાલ નેહરુ", "ગોપાલ કૃષ્ણ ગોકલ", "ડૉ. રાજેન્દ્ર પ્રસાદ", "સર્દાર પટેલ"],
+                correctAnswer: "ડૉ. રાજેન્દ્ર પ્રસાદ"
+            },
+            {
+                question: "ભારતની રાજધાની શું છે?",
+                options: ["મુંબઈ", "ચેન્નાઈ", "દિલ્લી", "કોલકાતા"],
+                correctAnswer: "દિલ્લી"
+            },
+            // Add more questions for Social Science (50 questions in total)
+        ];
+
+        // Add more subjects questions here for total 200
+        var allQuestions = questions; // Add more questions to this array for total 250
+
+        var currentQuestionIndex = 0;
+        var score = 0;
+        var totalQuestions = allQuestions.length;
+
+        // Timer Function (Optional)
+        var timer = 600; // Example: 10 minutes timer
+        var timerInterval = setInterval(function() {
+            var minutes = Math.floor(timer / 60);
+            var seconds = timer % 60;
+            document.getElementById("timer").innerText = `સમય બાકી: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            timer--;
+
+            if (timer < 0) {
+                clearInterval(timerInterval);
+                alert("સમય સમાપ્ત!");
+                showResult();
+            }
+        }, 1000);
+
+        function loadQuestion() {
+            if (currentQuestionIndex < totalQuestions) {
+                var currentQuestion = allQuestions[currentQuestionIndex];
+                document.getElementById("question-text").innerText = currentQuestion.question;
+                document.getElementById("label1").innerText = currentQuestion.options[0];
+                document.getElementById("label2").innerText = currentQuestion.options[1];
+                document.getElementById("label3").innerText = currentQuestion.options[2];
+                document.getElementById("label4").innerText = currentQuestion.options[3];
+            } else {
+                showResult();
+            }
+        }
+
+        function submitAnswer() {
+            var selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (selectedAnswer) {
+                var answerValue = selectedAnswer.value;
+                var currentQuestion = allQuestions[currentQuestionIndex];
+
+                // Play sound effects
+                var correctSound = document.getElementById("correct-sound");
+                var wrongSound = document.getElementById("wrong-sound");
+
+                if (answerValue === currentQuestion.correctAnswer) {
+                    score++;
+                    correctSound.play(); // Play correct answer sound
+                    document.getElementById("result").innerText = "સાચું!";
+                } else {
+                    wrongSound.play(); // Play wrong answer sound
+                    document.getElementById("result").innerText = `ખોટું! સાચું જવાબ: ${currentQuestion.correctAnswer}`;
+                }
+
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                alert("કૃપા કરીને જવાબ પસંદ કરો.");
+            }
+        }
+
+        function showResult() {
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("result").innerHTML = `ક્વિઝ સમાપ્ત! તમારું સ્કોર: ${score} માંથી ${totalQuestions}`;
+        }
+
+        // Load the first question when the page loads
+        window.onload = loadQuestion;
+    </script>
+
+</body>
+</html>
