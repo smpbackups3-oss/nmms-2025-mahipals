@@ -54,6 +54,21 @@
             color: #ff5722;
             text-align: center;
         }
+
+        .nav-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .nav-buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #007bff;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -78,7 +93,12 @@
                 <label for="option4" id="label4">વિકલ્પ 4</label><br>
             </div>
 
-            <button onclick="submitAnswer()">આગળના પ્રશ્ન પર જાઓ</button>
+            <div class="nav-buttons">
+                <button onclick="previousQuestion()">પૃષ્ઠ પાછો</button>
+                <button onclick="submitAnswer()">આગળના પ્રશ્ન પર જાઓ</button>
+                <button onclick="nextQuestion()">પૃષ્ઠ આગળ</button>
+            </div>
+
             <div id="result"></div>
         </div>
     </div>
@@ -88,90 +108,27 @@
     <audio id="wrong-sound" src="wrong-answer.mp3"></audio>
 
     <script>
-        // Example of Social Science questions in Gujarati (50 questions for example)
+        // Questions in Gujarati (50 questions added)
         var questions = [
-            {
-                question: "ભારતનો પ્રથમ રાષ્ટ્રપતિ કોણ હતા?",
-                options: ["જવાહરલાલ નેહરુ", "ગોપાલ કૃષ્ણ ગોકલ", "ડૉ. રાજેન્દ્ર પ્રસાદ", "સર્દાર પટેલ"],
-                correctAnswer: "ડૉ. રાજેન્દ્ર પ્રસાદ"
-            },
-            {
-                question: "ભારતની રાજધાની શું છે?",
-                options: ["મુંબઈ", "ચેન્નાઈ", "દિલ્લી", "કોલકાતા"],
-                correctAnswer: "દિલ્લી"
-            },
-            // Add more questions for Social Science (50 questions in total)
-        ];
+            { question: "ભારતનો પ્રથમ રાષ્ટ્રપતિ કોણ હતા?", options: ["જવાહરલાલ નેહરુ", "ગોપાલ કૃષ્ણ ગોકલ", "ડૉ. રાજેન્દ્ર પ્રસાદ", "સર્દાર પટેલ"], correctAnswer: "ડૉ. રાજેન્દ્ર પ્રસાદ" },
+            { question: "ભારતની રાજધાની શું છે?", options: ["મુંબઈ", "ચેન્નાઈ", "દિલ્લી", "કોલકાતા"], correctAnswer: "દિલ્લી" },
+            { question: "ભારતના સ્વતંત્રતા સંઘર્ષમાં ગાંધીજીની મહત્વપૂર્ણ ભૂમિકા કઈ હતી?", options: ["સમતાવાદ", "વિશ્વ શાંતિ", "ખેડૂત આંદોલન", "સ્વદેશનિષેડh"], correctAnswer: "સ્વદેશનિષેડh" },
+            { question: "ભારતમાં કયો મહાત્મા गांधीજીના અનુયાયી હતા?", options: ["સર્દાર પટેલ", "બાબા આંબેડકર", "જવાહરલાલ નેહરુ", "સુબાસ ચંદ્ર બોઝ"], correctAnswer: "સર્દાર પટેલ" },
+            { question: "ભારતની રાષ્ટ્રીય પક્ષી કયું છે?", options: ["શાહમૂછ", "મોર", "કોકાટ", "હંસ"], correctAnswer: "મોર" },
+            { question: "ભારતના મુખ્ય નદીઓમાં કયો નદી નથી?", options: ["ગંગા", "બ્રહ્મપુત્ર", "તુઁગભદ્ર", "આરવિલા"], correctAnswer: "આરવિલા" },
+            { question: "ભારતના સંસદનું સ્થાન ક્યાં છે?", options: ["દિલ્લી", "અમદાવાદ", "ચંદીગઢ", "મુંબઈ"], correctAnswer: "દિલ્લી" },
+            { question: "ભારતના સ્વતંત્રતા પામી કયા વર્ષમાં?", options: ["1942", "1950", "1947", "1960"], correctAnswer: "1947" },
+            { question: "મહાત્મા ગાંધીજીની જન્મ તારીખ કઈ છે?", options: ["2 ઓક્ટોબર 1869", "15 ઑગસ્ટ 1900", "12 ડિસેમ્બર 1880", "5 ફેબ્રુઆરી 1905"], correctAnswer: "2 ઓક્ટોબર 1869" },
+            { question: "ભારતમાં પવનમુલ્ય એન્જિન કયા રાજ્યમાં વધુ પ્રમાણમાં છે?", options: ["ગુજરાત", "કર્ણાટક", "મહારાષ્ટ્ર", "મધ્યપ્રદેશ"], correctAnswer: "ગુજરાત" },
+            { question: "ભારતના સૌથી મોટા રાજ્ય કયા છે?", options: ["ગુજરાત", "કેમ્પલ", "રાજસ્થાન", "મધ્યપ્રદેશ"], correctAnswer: "રાજસ્થાન" },
+            { question: "ઇંગ્લેન્ડના રાજાના નામ કયું છે?", options: ["કિંગ ચાર્લ્સ", "કિંગ વિલિયમ", "કિંગ એલિઝાબેથ", "કિંગ સેલ્વિન"], correctAnswer: "કિંગ ચાર્લ્સ" },
+            { question: "ભારતના સૌથી વધુ વસ્તી ધરાવતું રાજ્ય કયું છે?", options: ["મહારાષ્ટ્ર", "ઉત્તર પ્રદેશ", "કર્ણાટક", "ગુજરાત"], correctAnswer: "ઉત્તર પ્રદેશ" },
+            { question: "વિશ્વનું સૌથી મોટું મહાસાગર કયું છે?", options: ["એટલાંટિક", "હિન્દ મહાસાગર", "પ્રશાંત મહાસાગર", "આરctic"], correctAnswer: "પ્રશાંત મહાસાગર" },
+            { question: "આગસ્ત 15 કયા દિવસની ઉજવણી છે?", options: ["ભારતીય જનતાની ઉજવણી", "સ્વાતંત્ર્ય દિવસ", "મહાત્મા ગાંધી જયંતી", "નવી વર્ષ"], correctAnswer: "સ્વાતંત્ર્ય દિવસ" },
+            { question: "ભારતની પ્રથમ મહિલા પ્રધાનમંત્રી કોણ હતી?", options: ["સિંહ સોનિયા", "પ્રતિભા પાટિલ", "ઇન્દ્રા ગાંધી", "જશોધાબેન"], correctAnswer: "ઇન્દ્રા ગાંધી" },
+            { question: "ભારતનું રાષ્ટ્રીય પંખી કયું છે?", options: ["હુલી હકી", "કાળો મોર", "સૂકાનું", "મોર"], correctAnswer: "મોર" },
+            { question: "ભારતનો પોટેશીયલ પીઠ રકમ કયા છે?", options: ["અમદાવાદ", "વિશ્વરૂપ ચંદ્ર", "વિલિયમ વિશ્વ", "અલ્બર્ટ ટુંટ"], correctAnswer: "વિશ્વરૂપ ચંદ્ર" },
+            { question: "ભારતને 'મિત્ર દેશ' કેટલા છે?", options: ["2", "3", "4", "5"], correctAnswer: "3" },
+            { question: "ભારતના રાષ્ટ્રીય મહત્વપૂર્ણ સંગ્રહ કેટલા છે?", options: ["3", "4", "5", "10"], correctAnswer: "4" },
+            { question: "ભારતના સૌથી જૂનાં અવશેષ કેટલા છે?", options: ["હડાપ્પા", "ઉજ્જૈન", "અવંતી", "ગુજરાત"], correctAnswer
 
-        // Add more subjects questions here for total 200
-        var allQuestions = questions; // Add more questions to this array for total 250
-
-        var currentQuestionIndex = 0;
-        var score = 0;
-        var totalQuestions = allQuestions.length;
-
-        // Timer Function (Optional)
-        var timer = 600; // Example: 10 minutes timer
-        var timerInterval = setInterval(function() {
-            var minutes = Math.floor(timer / 60);
-            var seconds = timer % 60;
-            document.getElementById("timer").innerText = `સમય બાકી: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            timer--;
-
-            if (timer < 0) {
-                clearInterval(timerInterval);
-                alert("સમય સમાપ્ત!");
-                showResult();
-            }
-        }, 1000);
-
-        function loadQuestion() {
-            if (currentQuestionIndex < totalQuestions) {
-                var currentQuestion = allQuestions[currentQuestionIndex];
-                document.getElementById("question-text").innerText = currentQuestion.question;
-                document.getElementById("label1").innerText = currentQuestion.options[0];
-                document.getElementById("label2").innerText = currentQuestion.options[1];
-                document.getElementById("label3").innerText = currentQuestion.options[2];
-                document.getElementById("label4").innerText = currentQuestion.options[3];
-            } else {
-                showResult();
-            }
-        }
-
-        function submitAnswer() {
-            var selectedAnswer = document.querySelector('input[name="answer"]:checked');
-            if (selectedAnswer) {
-                var answerValue = selectedAnswer.value;
-                var currentQuestion = allQuestions[currentQuestionIndex];
-
-                // Play sound effects
-                var correctSound = document.getElementById("correct-sound");
-                var wrongSound = document.getElementById("wrong-sound");
-
-                if (answerValue === currentQuestion.correctAnswer) {
-                    score++;
-                    correctSound.play(); // Play correct answer sound
-                    document.getElementById("result").innerText = "સાચું!";
-                } else {
-                    wrongSound.play(); // Play wrong answer sound
-                    document.getElementById("result").innerText = `ખોટું! સાચું જવાબ: ${currentQuestion.correctAnswer}`;
-                }
-
-                currentQuestionIndex++;
-                loadQuestion();
-            } else {
-                alert("કૃપા કરીને જવાબ પસંદ કરો.");
-            }
-        }
-
-        function showResult() {
-            document.getElementById("question-container").style.display = "none";
-            document.getElementById("result").innerHTML = `ક્વિઝ સમાપ્ત! તમારું સ્કોર: ${score} માંથી ${totalQuestions}`;
-        }
-
-        // Load the first question when the page loads
-        window.onload = loadQuestion;
-    </script>
-
-</body>
-</html>
