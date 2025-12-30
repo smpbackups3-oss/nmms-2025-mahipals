@@ -3,205 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NMMS Quiz</title>
+    <title>NMMS પ્રેક્ટિસ પ્રશ્નો</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            transition: background 0.3s ease;
-        }
-
-        /* Feather Launcher Effect Background (Blurred) */
-        .feather-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/feather.png'); /* Add a feather pattern image */
-            filter: blur(10px);
-            background-size: cover;
-            z-index: -1;
-        }
-
-        .container {
-            width: 60%;
-            margin: 50px auto;
+            background-color: #f4f4f4;
+            margin: 0;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            position: relative;
-            z-index: 1;
         }
-
-        .question {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-
-        .options {
-            margin-bottom: 30px;
-        }
-
-        .options input {
-            margin-right: 10px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        #result {
-            margin-top: 20px;
-        }
-
-        .nav-buttons {
-            margin-top: 20px;
+        h1 {
             text-align: center;
         }
-
-        .nav-buttons button {
+        .question {
+            margin-bottom: 20px;
+        }
+        .question p {
+            font-size: 18px;
+        }
+        .answers input {
+            margin-right: 10px;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
             padding: 10px 20px;
-            margin: 5px;
-            background-color: #007bff;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
         }
-
-        .nav-buttons button:hover {
-            background-color: #0056b3;
+        .submit-btn:hover {
+            background-color: #45a049;
         }
-
-        /* Right Arrow styling */
-        .right-arrow {
-            color: green;
-            font-size: 1.5rem;
-            margin-left: 10px;
-            display: inline-block;
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
         }
-
     </style>
 </head>
 <body>
 
-    <!-- Feather Background -->
-    <div class="feather-background"></div>
+<div class="container">
+    <h1>NMMS પ્રેક્ટિસ પ્રશ્નો</h1>
 
-    <div class="container">
-        <div id="question-container">
-            <div class="question">
-                <p id="question-text">પ્રશ્ન અહીં દર્શાવા માટે આવે છે.</p>
+    <form id="quizForm">
+        <!-- Question 1 -->
+        <div class="question">
+            <p>1. ભારતમાં રાજધાની કઈ છે?</p>
+            <div class="answers">
+                <label><input type="radio" name="q1" value="a"> દિલ્હી</label><br>
+                <label><input type="radio" name="q1" value="b"> મુંબઈ</label><br>
+                <label><input type="radio" name="q1" value="c"> કોલકાતા</label><br>
+                <label><input type="radio" name="q1" value="d"> બંગલોર</label>
             </div>
-
-            <div class="options">
-                <input type="radio" id="option1" name="answer" value="A">
-                <label for="option1" id="label1">વિકલ્પ 1</label><br>
-                <input type="radio" id="option2" name="answer" value="B">
-                <label for="option2" id="label2">વિકલ્પ 2</label><br>
-                <input type="radio" id="option3" name="answer" value="C">
-                <label for="option3" id="label3">વિકલ્પ 3</label><br>
-                <input type="radio" id="option4" name="answer" value="D">
-                <label for="option4" id="label4">વિકલ્પ 4</label><br>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="previousQuestion()">પૃષ્ઠ પાછો</button>
-                <button onclick="submitAnswer()">આગળના પ્રશ્ન પર જાઓ</button>
-                <button onclick="nextQuestion()">પૃષ્ઠ આગળ</button>
-            </div>
-
-            <div id="result"></div>
         </div>
-    </div>
 
-    <!-- Audio Files for sound effects -->
-    <audio id="correct-sound" src="correct-answer.mp3"></audio>
-    <audio id="wrong-sound" src="wrong-answer.mp3"></audio>
+        <!-- Question 2 -->
+        <div class="question">
+            <p>2. વિજળીના બલ્બને કોણે શોધી?</p>
+            <div class="answers">
+                <label><input type="radio" name="q2" value="a"> આલ્બર્ટ આઇન્સટાઇન</label><br>
+                <label><input type="radio" name="q2" value="b"> નિકોલા ટેસ્લા</label><br>
+                <label><input type="radio" name="q2" value="c"> થોમસ એડીસન</label><br>
+                <label><input type="radio" name="q2" value="d"> એલેકઝાન્ડર ગ્રેહમ બેલ</label>
+            </div>
+        </div>
 
-    <script>
-        // Questions in Gujarati (50 questions added)
-        var questions = [
-            { question: "ભારતનો પ્રથમ રાષ્ટ્રપતિ કોણ હતા?", options: ["જવાહરલાલ નેહરુ", "ગોપાલ કૃષ્ણ ગોકલ", "ડૉ. રાજેન્દ્ર પ્રસાદ", "સર્દાર પટેલ"], correctAnswer: "ડૉ. રાજેન્દ્ર પ્રસાદ" },
-            { question: "ભારતની રાજધાની શું છે?", options: ["મુંબઇ", "ચેન્નાઈ", "દિલ્લી", "કોલકાતા"], correctAnswer: "દિલ્લી" },
-            { question: "ભારતના સ્વતંત્રતા સંઘર્ષમાં ગાંધીજીની મહત્વપૂર્ણ ભૂમિકા કઈ હતી?", options: ["સમતાવાદ", "વિશ્વ શાંતિ", "ખેડૂત આંદોલન", "સ્વદેશનિષેડh"], correctAnswer: "સ્વદેશનિષેડh" },
-            { question: "ભારતમાં કયો મહાત્મા ગાંધીજીના અનુયાયી હતા?", options: ["સર્દાર પટેલ", "બાબા આંબેડકર", "જવાહરલાલ નેહરુ", "સુબાસ ચંદ્ર બોઝ"], correctAnswer: "સર્દાર પટેલ" },
-            // Add more questions here...
-        ];
+        <!-- Question 3 -->
+        <div class="question">
+            <p>3. ગુરુ નાનક દેવજીનો જન્મ ક્યા સ્થળે થયો હતો?</p>
+            <div class="answers">
+                <label><input type="radio" name="q3" value="a"> અમૃતસર</label><br>
+                <label><input type="radio" name="q3" value="b"> પાકિસ્તાન</label><br>
+                <label><input type="radio" name="q3" value="c"> લાહોર</label><br>
+                <label><input type="radio" name="q3" value="d"> હાર્દ્વાર</label>
+            </div>
+        </div>
 
-        var currentQuestionIndex = 0;
-        var score = 0;
-        var totalQuestions = questions.length;
+        <!-- Question 4 -->
+        <div class="question">
+            <p>4. "ભારતીય સાવચેતી" ના રાષ્ટ્રીય પૂજારાને કોણે સ્થાપના કરી?</p>
+            <div class="answers">
+                <label><input type="radio" name="q4" value="a"> સુરાજ નાથ</label><br>
+                <label><input type="radio" name="q4" value="b"> ચંદ્રશેખર આઝાદ</label><br>
+                <label><input type="radio" name="q4" value="c"> લાલા લજપત રાય</label><br>
+                <label><input type="radio" name="q4" value="d"> સરદાર પટેલ</label>
+            </div>
+        </div>
 
-        // Load the current question
-        function loadQuestion() {
-            if (currentQuestionIndex < totalQuestions) {
-                var currentQuestion = questions[currentQuestionIndex];
-                document.getElementById("question-text").innerText = currentQuestion.question;
-                document.getElementById("label1").innerText = currentQuestion.options[0];
-                document.getElementById("label2").innerText = currentQuestion.options[1];
-                document.getElementById("label3").innerText = currentQuestion.options[2];
-                document.getElementById("label4").innerText = currentQuestion.options[3];
-                document.getElementById("result").innerHTML = '';  // Clear previous result
+        <!-- Question 5 -->
+        <div class="question">
+            <p>5. કોણ છે જેમણે "બાપુ" ના ઉપનામ સાથે ઓળખાય છે?</p>
+            <div class="answers">
+                <label><input type="radio" name="q5" value="a"> જેવહરલાલ નેહરુ</label><br>
+                <label><input type="radio" name="q5" value="b"> મહાત્મા ગાંધી</label><br>
+                <label><input type="radio" name="q5" value="c"> બિનોદ ભવન</label><br>
+                <label><input type="radio" name="q5" value="d"> સરદાર પટેલ</label>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="button" class="submit-btn" onclick="checkAnswers()">જવાબ મોકલો</button>
+    </form>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    // Correct answers for each question
+    const correctAnswers = {
+        q1: "a",  // Delhi
+        q2: "c",  // Thomas Edison
+        q3: "b",  // Pakistan
+        q4: "c",  // Lala Lajpat Rai
+        q5: "b",  // Mahatma Gandhi
+        // Add other correct answers here
+    };
+
+    function checkAnswers() {
+        let score = 0;
+        const form = document.getElementById("quizForm");
+        const resultDiv = document.getElementById("result");
+
+        // Loop through each question and check if the selected answer is correct
+        for (let i = 1; i <= 5; i++) {  // Update '5' to number of questions
+            const selectedAnswer = form.querySelector(`input[name="q${i}"]:checked`);
+            if (selectedAnswer && selectedAnswer.value === correctAnswers[`q${i}`]) {
+                score++;
             }
         }
 
-        function submitAnswer() {
-            var selectedAnswer = document.querySelector('input[name="answer"]:checked');
-            if (selectedAnswer) {
-                var answerValue = selectedAnswer.value;
-                var currentQuestion = questions[currentQuestionIndex];
-
-                // Play sound effects
-                var correctSound = document.getElementById("correct-sound");
-                var wrongSound = document.getElementById("wrong-sound");
-
-                if (answerValue === currentQuestion.correctAnswer) {
-                    score++;
-                    correctSound.play(); // Play correct answer sound
-                    document.getElementById("result").innerHTML = `સાચું! <span class="right-arrow">&#8594;</span>`;
-                    changeBackground('green'); // Change background color on correct answer
-                } else {
-                    wrongSound.play(); // Play wrong answer sound
-                    document.getElementById("result").innerText = `ખોટું! સાચું જવાબ: ${currentQuestion.correctAnswer}`;
-                    changeBackground('red'); // Change background color on wrong answer
-                }
-
-                currentQuestionIndex++;
-                loadQuestion();
-            } else {
-                alert("કૃપા કરીને જવાબ પસંદ કરો.");
-            }
-        }
-
-        function changeBackground(color) {
-            document.body.style.backgroundColor = color;
-        }
-
-        function nextQuestion() {
-            if (currentQuestionIndex < totalQuestions) {
-                loadQuestion();
-            }
-        }
-
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion();
-            }
-        }
-
-        // Load the first question when the page loads
-        window.onload = loadQuestion;
-    </script>
+        // Display result
+        resultDiv.innerHTML = `તમારા 5 પૈકી ${score} સવાલો સાચા છે.`;
+    }
+</script>
 
 </body>
 </html>
+
+
